@@ -34,8 +34,8 @@ export default function Login() {
     try {
       const endpoint =
         selectedRole === 'citizen'
-          ? 'http://localhost:10000/api/auth/citizen'
-          : 'http://localhost:10000/api/auth/government';
+          ? 'https://civicdeploy-1.onrender.com/api/auth/citizen'
+          : 'https://civicdeploy-1.onrender.com/api/auth/government';
 
       const response = await axios.post(endpoint, {
         email: formData.email,

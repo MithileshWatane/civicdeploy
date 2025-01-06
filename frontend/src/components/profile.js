@@ -20,13 +20,13 @@ const Profile = () => {
         const token = localStorage.getItem('token');
         if (token) {
           // Fetch user details
-          const response = await axios.get('http://localhost:10000/api/users/me', {
+          const response = await axios.get('https://civicdeploy-1.onrender.com/api/users/me', {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(response.data.user);
 
           // Fetch user's reported issues
-          const issuesResponse = await axios.get('http://localhost:10000/api/issues/user', {
+          const issuesResponse = await axios.get('https://civicdeploy-1.onrender.com/api/issues/user', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -34,7 +34,7 @@ const Profile = () => {
           setIssues(issuesResponse.data.issues);
 
           // Fetch all projects and filter by user ID (createdBy field)
-          const projectsResponse = await axios.get('http://localhost:10000/api/community/projects', {
+          const projectsResponse = await axios.get('https://civicdeploy-1.onrender.com/api/community/projects', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -62,7 +62,7 @@ const Profile = () => {
   const deleteIssue = async (id) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:10000/api/issues/delete/${id}`, {
+      await axios.delete(`https://civicdeploy-1.onrender.com/api/issues/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setIssues(issues.filter((issue) => issue._id !== id));
@@ -74,7 +74,7 @@ const Profile = () => {
   const deleteProject = async (id) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:10000/api/community/delete/${id}`, {
+      await axios.delete(`https://civicdeploy-1.onrender.com/api/community/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(projects.filter((project) => project._id !== id));
@@ -92,7 +92,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
     try {
       const response = await axios.put(
-        `http://localhost:10000/api/issues/edit/${editIssue._id}`,
+        `https://civicdeploy-1.onrender.com/api/issues/edit/${editIssue._id}`,
         editIssue,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -113,7 +113,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
     try {
       const response = await axios.put(
-        `http://localhost:10000/api/community/edit/${editProject._id}`,
+        `https://civicdeploy-1.onrender.com/api/community/edit/${editProject._id}`,
         editProject,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -134,7 +134,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
     try {
       const response = await axios.put(
-        `http://localhost:10000/api/register/update`,
+        `https://civicdeploy-1.onrender.com/api/register/update`,
         editUser,
         {
           headers: { Authorization: `Bearer ${token}` },
