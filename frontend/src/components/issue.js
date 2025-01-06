@@ -22,7 +22,7 @@ const CivicIssueForm = () => {
   // Fetch authorities from the backend
   const fetchAuthorities = async () => {
     try {
-      const response = await fetch('https://civicdeploy-1.onrender.com/api/government-authorities/get');
+      const response = await fetch('http://localhost:10000/api/government-authorities/get');
       const data = await response.json();
       setAuthorities(data);
     } catch (error) {
@@ -46,7 +46,7 @@ const CivicIssueForm = () => {
     };
 
     try {
-      const response = await fetch('https://civicdeploy-1.onrender.com/api/issues/report', {
+      const response = await fetch('http://localhost:10000/api/issues/report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
