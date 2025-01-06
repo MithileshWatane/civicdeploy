@@ -1,0 +1,299 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Navbar Styling */
+.navbar {
+  background-color: #ffffff; /* Blue color */
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+  color: #000000;
+  font-size: 24px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar ul li {
+  margin-left: 20px;
+}
+
+.navbar ul li a {
+  color: #000000;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 15px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  background-color: #0c83b1; /* Darker blue */
+  color: white;
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Dashboard Section */
+.dashboard {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  
+}
+
+.dashboard:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+.dashboard h1 {
+  font-size: 32px;
+  color: #007bff; /* Blue color */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filters label {
+  font-size: 18px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.filters select {
+  padding: 8px 12px;
+  border: 1px solid #007bff; /* Blue border */
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.filters select:hover {
+  border-color: #0056b3; /* Darker blue */
+}
+
+/* Complaint Sections */
+.complaint-sections {
+  margin-top: 20px;
+}
+
+.complaint-sections h2 {
+  font-size: 24px;
+  color: #007bff; /* Blue color */
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Complaint Categories */
+.complaint-categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.category-btn {
+  padding: 10px 20px;
+  background-color: #f4f4f9;
+  border: 1px solid #007bff; /* Blue border */
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #007bff; /* Blue background on hover */
+  color: #fff; /* White text on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Complaints Container */
+.complaints-container {
+  padding: 30px;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 20px;
+  justify-content: center;
+}
+
+.complaint-card {
+  background-color: #f4f4f9;
+  margin-top: 10px;
+  padding: 15px;
+  width: 1100px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.complaint-card:hover {
+  transform: translateY(-5px); /* Lift card effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+.complaint-card h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.complaint-card p {
+  font-size: 16px;
+  color: #555;
+}
+
+.complaint-status {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #007bff; /* Blue color */
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #007bff; /* Blue color */
+  color: #fff;
+  margin-top: 20px;
+}
+
+footer p {
+  margin: 0;
+}
+.titles-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.titles-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px; /* Adds space between title buttons */
+  margin: 20px 0;
+}
+
+.category-btn {
+  padding: 12px 20px;
+  margin: 5px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  border-radius: 4px;
+  border-color: 2px #0056b3;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+
+.category-btn:hover {
+  background-color: #0056b3;
+}
+
+.category-btn.selected {
+  background-color: #004085;
+  color: #fff;
+  font-weight: bold;
+}
+.complaint-card .status-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+  color: #333; /* Neutral text color */
+}
+
+.complaint-card .status-dropdown {
+  margin-top: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.complaint-card .status-dropdown:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border on focus */
+  background-color: #fff;
+}
+
+.complaint-card .status-dropdown:hover {
+  border-color: #0056b3; /* Darker blue border on hover */
+}
+
+
+
+.visualization-section {
+  margin: 20px 0;
+}
+
+.charts {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 20px; /* Better spacing between charts */
+}
+
+.bar-chart,
+.pie-chart {
+  flex: 1; /* Distribute space equally */
+  min-width: 300px; /* Minimum width for responsive design */
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  /* padding: 20px; More padding for better appearance */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animations */
+}
+
+.bar-chart:hover,
+.pie-chart:hover {
+  transform: scale(1.02); /* Subtle zoom effect on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.bar-chart h3,
+.pie-chart h3 {
+  font-size: 18px; /* Slightly larger font size */
+  margin-bottom: 15px; /* Better spacing */
+  text-align: center;
+  color: #333; /* Darker text for better readability */
+}
+
+
+/* Example of minimizing layout recalculations */
+.resizable-element {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}

@@ -1,0 +1,161 @@
+/* Global Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff; /* Light blue background */
+  color: #111010;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
+/* Container for the Issue Form */
+.issue-form {
+  /* background-color: #ffffff; */
+  padding: 20px;
+  border-radius: 10px;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
+  width: 100%;
+  max-width: 600px;
+  margin: 90px auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* .issue-form:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+} */
+
+.issue-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #000000; /* Dark blue for header */
+}
+
+/* Form Fields */
+.issue-form form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.issue-form form div {
+  margin-bottom: 15px;
+}
+
+.issue-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #000000; /* Dark blue for labels */
+}
+
+.issue-form input[type="text"],
+.issue-form textarea,
+.issue-form select,
+.issue-form input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #89939e; /* Blue border */
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.issue-form input[type="text"]:focus,
+.issue-form textarea:focus,
+.issue-form select:focus {
+  border-color: #0056b3; /* Dark blue on focus */
+  outline: none;
+}
+
+/* Tagging Button Styles */
+.tag-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  background-color: #e7f1ff; /* Light blue background */
+  border: 1px solid #007bff; /* Blue border */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.tag-btn:hover {
+  background-color: #d0e4ff; /* Slightly darker on hover */
+  transform: translateY(-2px);
+}
+
+/* Tagged Authorities Section */
+.tagged-authorities {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Submit Button */
+.issue-form button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #2f7dd0; /* Blue background */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.issue-form button[type="submit"]:hover {
+  background-color: #1c1e20; /* Dark blue on hover */
+  transform: translateY(-2px);
+}
+
+.footer {
+  padding: 20px 0;
+}
+
+.footer-heading {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.footer-link {
+  margin-top: 10px;
+}
+
+.footer-link a {
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.footer-link a:hover {
+  color: #f0e68c;
+}
+
+.list-inline-item a {
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.list-inline-item a:hover {
+  color: #ffffff;
+  background-color: #343a40;
+}
+
+.contact address,
+.contact a {
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.bg-dark {
+  background-color: #343a40 !important;
+}
