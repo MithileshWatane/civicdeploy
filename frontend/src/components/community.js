@@ -74,7 +74,7 @@ export default function CommunityUpdated() {
   
     try {
       await axios.post(
-        '/api/community/projects',
+        'https://civicdeploy-1.onrender.com/api/community/projects',
         { name: projectName, goalAmount, description },
         {
           headers: {
