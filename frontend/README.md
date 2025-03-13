@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# CivicConnect
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
+CivicConnect is a web application designed for community engagement and government interaction. It provides a platform for users to report issues, engage with community initiatives, and access government services.
 
-## Available Scripts
+## Installation Instructions
 
-In the project directory, you can run:
+### Backend
+1. Navigate to the `backend` directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file and configure your environment variables.
+4. Start the server:
+   ```bash
+   npm start
+   ```
 
-### `npm start`
+### Frontend
+1. Navigate to the `frontend` directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the React application:
+   ```bash
+   npm start
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Usage
+Once both the backend and frontend are running, you can access the application at `http://localhost:3000`. Use the navigation to explore different features.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## API Endpoints
+- **POST /api/register**: Register a new user.
+- **POST /api/auth**: Authenticate a user.
+- **GET /api/government**: Retrieve government authorities.
+- **GET /api/issues**: Get reported issues.
+- **GET /api/community**: Access community initiatives.
 
-### `npm test`
+## Frontend Features
+- **Landing Page**: Introduction to the application.
+- **Issue Reporting**: Users can report issues in the community.
+- **Trending Topics**: View trending community topics.
+- **Community Engagement**: Participate in community initiatives.
+- **User Authentication**: Login and register functionalities.
+- **Dashboard**: User dashboard for managing personal information.
+- **Profile**: View and edit user profile.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## MVC Architecture
+CivicConnect follows the MVC (Model-View-Controller) architecture:
 
-### `npm run build`
+- **Model**: Represents the data and business logic of the application. In the backend, models are defined for users, projects, issues, and government authorities, which interact with the database.
+  
+- **View**: The user interface of the application. In the frontend, React components serve as views, rendering the UI and displaying data to users.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Controller**: Handles user input and interacts with the model. In the backend, controllers manage the logic for processing requests, interacting with models, and returning responses.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Images
+### Screenshots of Different Pages
+![Landing Page](./landing-page-image.png)
+![Issue Reporting](path/to/issue-reporting-image.png)
+![Dashboard](path/to/dashboard-image.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### System Architecture
+![System Architecture](path/to/system-architecture-image.png)
 
-### `npm run eject`
+## Contributing
+Contributions are welcome! Please submit a pull request or open an issue for discussion.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+This project is licensed under the MIT License.

@@ -16,13 +16,22 @@ export default function Dashboard() {
     resolved: 0,
   });
 
+ const [modalImage, setModalImage] = useState(null);
+  
+    const openModal = (image) => {
+      setModalImage(image);
+    };
+  
+    const closeModal = () => {
+      setModalImage(null);
+    }
   const allStatuses = ['all', 'in progress', 'resolved', 'reported'];
   const COLORS = ['#8884d8', '#82ca9d', '#ffc658'];
 
   const fetchComplaints = async () => {
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     try {
-      const response = await fetch('https://civicdeploy-1.onrender.com/api/governmentid/reported-issues', {
+      const response = await fetch('http://localhost:5000/api/governmentid/reported-issues', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the headers
@@ -97,7 +106,7 @@ export default function Dashboard() {
   const changeStatus = async (id, newStatus) => {
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     try {
-      const response = await fetch(`https://civicdeploy-1.onrender.com/api/issues/modify/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/issues/modify/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -241,44 +250,105 @@ export default function Dashboard() {
             )}
           </div>
         </div>
+
+        
         <div id="complaintsContainer" className="complaints-container">
-          <h2>Complaint Details</h2>
-          {filteredComplaints.length > 0 ? (
-            filteredComplaints.map((complaint) => (
-              <div key={complaint._id} className="complaint-card">
-                <h3>{complaint.title}</h3>
-                <p>{complaint.description}</p>
-                <p><strong>Location:</strong> {complaint.location}</p>
-                <p className="complaint-status">
-                  <strong>Status:</strong> {complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)}
-                </p>
-                <label htmlFor={`status-select-${complaint._id}`} className="status-label">
-                  Change Status:
-                </label>
-                <select
-                  id={`status-select-${complaint._id}`}
-                  value={complaint.status}
-                  onChange={(e) => changeStatus(complaint._id, e.target.value)}
-                  className="status-dropdown"
-                >
-                  {allStatuses.filter((status) => status !== 'all').map((status) => (
-                    <option key={status} value={status}>
-                      {status.charAt(0).toUpperCase() + status.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ))
-          ) : (
-            <p>No complaints found for the selected title.</p>
-          )}
+  <h2>Complaint Details</h2>
+  {filteredComplaints.length > 0 ? (
+    filteredComplaints.map((complaint) => (
+      <div
+        key={complaint._id}
+        className="complaint-card"
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}
+      >
+        <div style={{ flex: 1 }}>
+          <h3>{complaint.title}</h3>
+          <p>{complaint.description}</p>
+          <p><strong>Location:</strong> {complaint.location}</p>
+          <p className="complaint-status">
+            <strong>Status:</strong> {complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)}
+          </p>
+          <label htmlFor={`status-select-${complaint._id}`} className="status-label">
+            Change Status:
+          </label>
+          <select
+            id={`status-select-${complaint._id}`}
+            value={complaint.status}
+            onChange={(e) => changeStatus(complaint._id, e.target.value)}
+            className="status-dropdown"
+          >
+            {allStatuses.filter((status) => status !== 'all').map((status) => (
+              <option key={status} value={status}>
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </option>
+            ))}
+          </select>
         </div>
+        
+        {complaint.images?.[0] && (
+          <img
+            src={complaint.images[0]}
+            alt="Issue"
+            className="issue-image"
+            style={{
+              width: '150px',
+              height: '150px',
+              objectFit: 'cover',
+              cursor: 'pointer',
+              flexShrink: 0, // Prevent image from shrinking
+            }}
+            onClick={() => openModal(complaint.images[0])}
+          />
+        )}
+      </div>
+    ))
+  ) : (
+    <p>No complaints found for the selected title.</p>
+  )}
+</div>
+
         </div>
         </div>
 
       </section>
 
-
+      {modalImage && (
+    <div
+      className="modal"
+      style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        padding: '20px',
+        borderRadius: '10px',
+        zIndex: 1001,
+      }}
+    >
+      <button
+        onClick={closeModal}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          backgroundColor: 'white',
+          border: 'none',
+          padding: '5px 10px',
+          cursor: 'pointer',
+          borderRadius: '5px',
+          zIndex: 1002,
+        }}
+      >
+        Close
+      </button>
+      <img
+        src={modalImage}
+        alt="Expanded"
+        style={{ maxWidth: '80vw', maxHeight: '80vh', borderRadius: '5px' }}
+      />
+    </div>
+  )}
       <footer>
         <p>© 2025 CivicConnect. All Rights Reserved.</p>
       </footer>

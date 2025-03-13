@@ -47,8 +47,8 @@ export default function Register() {
     try {
       const endpoint =
         selectedRole === 'citizen'
-          ? 'https://civicdeploy-1.onrender.com/api/register/citizen'
-          : 'https://civicdeploy-1.onrender.com/api/register/government';
+          ? 'http://localhost:5000/api/register/citizen'
+          : 'http://localhost:5000/api/register/government';
 
       const payload =
         selectedRole === 'citizen'

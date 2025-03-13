@@ -8,10 +8,15 @@ import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './components/dashboard';
 import Profile from './components/profile';
+// import Navbar from './components/Navbar.js';
+// import './index.css'; // or './App.css'
+
 
 function App() {
   return (
+    // < Navbar />
     <Router>
+     
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/issue" element={<Issue />} />

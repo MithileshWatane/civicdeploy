@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const path = require("path");
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ app.use('/api/issues', issueRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/community', communityRoutes); // Use community routes
 
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Start the server
 app.listen(PORT, () => {
