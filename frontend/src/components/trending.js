@@ -41,7 +41,7 @@ export default function Trending() {
         const token = localStorage.getItem('token'); // Get the token once
   
         // Fetch trending issues
-        const response = await axios.get('http://localhost:5000/api/issues/get', {
+        const response = await axios.get('https://civicdeploy-1.onrender.com/api/issues/get', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -49,7 +49,7 @@ export default function Trending() {
         setTrendingIssues(response.data.issues);
   
         // Fetch user's reported issues
-        const issuesResponse = await axios.get('http://localhost:5000/api/issues/user', {
+        const issuesResponse = await axios.get('https://civicdeploy-1.onrender.com/api/issues/user', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -68,7 +68,7 @@ export default function Trending() {
   const handleUpvote = async (issueId) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/issues/trending/${issueId}/upvote`,
+        `https://civicdeploy-1.onrender.com/api/issues/trending/${issueId}/upvote`,
         { upvote: true },
         {
           headers: {
