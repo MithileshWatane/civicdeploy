@@ -4,13 +4,16 @@ exports.reportIssue = async (req, res) => {
   const { title, description, location, governmentAuthority, latitude, longitude } = req.body;
 
   try {
-    // Ensure req.user is defined
     if (!req.user || !req.user.id) {
       return res.status(401).json({ message: 'Unauthorized: User not authenticated' });
     }
 
-    // Extract image paths if files are uploaded
-    const imagePaths = req.files ? req.files.map(file => `/uploads/${file.filename}`) : [];
+    // Convert uploaded files to binary format for MongoDB
+    const images = req.files ? req.files.map(file => ({
+      filename: file.originalname,
+      contentType: file.mimetype,
+      data: file.buffer, // Store binary data directly
+    })) : [];
 
     const issue = new Issue({
       title,
@@ -19,8 +22,8 @@ exports.reportIssue = async (req, res) => {
       latitude,
       longitude,
       governmentAuthority,
-      reportedBy: req.user.id, // Access user ID
-      images: imagePaths, // Store uploaded image paths
+      reportedBy: req.user.id,
+      images, // Save binary images in MongoDB
     });
 
     await issue.save();
@@ -30,6 +33,7 @@ exports.reportIssue = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 exports.getIssuesByLoggedInUser = async (req, res) => {
   try {
@@ -71,6 +75,8 @@ exports.getIssuesByLoggedInUser = async (req, res) => {
   }
 };
 
+
+
 exports.getIssuesByLoggedInGovernmentAuthority = async (req, res) => {
   try {
     // Ensure the government authority is authenticated and req.user contains the logged-in government authority's ID
@@ -93,6 +99,9 @@ exports.getIssuesByLoggedInGovernmentAuthority = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+
+
 
 // Get all issues reported to the government authority
 exports.getReportedIssues = async (req, res) => {

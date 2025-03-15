@@ -193,6 +193,13 @@ const Profile = () => {
 
   const COLORS = ['#ffbb33', '#33b5e5', '#00C49F']; // Colors for chart segments
 
+
+    // Function to convert buffer to base64 string
+  const bufferToBase64 = (buffer) => {
+    const binary = new Uint8Array(buffer).reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+    return btoa(binary);
+  };
+
   return (
     <div className="profile-page">
       <nav className="navbar">
@@ -271,7 +278,20 @@ const Profile = () => {
                   <button onClick={() => setEditIssue(issue)}>Edit</button>
                   <button onClick={() => deleteIssue(issue._id)}>Delete</button>
                 </div>
-                {issue.image?.[0] && <img src={issue.image[0]} alt="Issue" className="issue-image" style={{ width: '150px', height: '150px', objectFit: 'cover', cursor: 'pointer' }} onClick={() => openModal(issue.image[0])} />}
+                {/* {issue.image?.[0] && <img src={issue.image[0]} alt="Issue" className="issue-image" style={{ width: '150px', height: '150px', objectFit: 'cover', cursor: 'pointer' }} onClick={() => openModal(issue.image[0])} />} */}
+                {issue.image?.length > 0 && issue.image.map((img, index) => {
+              const base64Image = bufferToBase64(img.data.data); // Accessing binary data
+              const imgSrc = `data:${img.contentType};base64,${base64Image}`;
+
+              return (
+                <img
+                  key={index}
+                  src={imgSrc}
+                  alt={`Issue ${index + 1}`}
+                  style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '10px' }}
+                  onClick={() => openModal(imgSrc)} />
+              );
+            })}
               </li>
             ))}
           </ul>

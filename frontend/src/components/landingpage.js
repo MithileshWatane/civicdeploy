@@ -12,7 +12,11 @@ export default function App() {
   const [role, setRole] = useState(null); // Track the user role
   const navigate = useNavigate();
 
-
+    // Function to convert buffer to base64 string
+    const bufferToBase64 = (buffer) => {
+      const binary = new Uint8Array(buffer).reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+      return btoa(binary);
+    };
    const [modalImage, setModalImage] = useState(null);
     
       const openModal = (image) => {
@@ -281,21 +285,19 @@ export default function App() {
                         </button>
                       )}
                     </div>
-                    {issue.images?.[0] && (
-                      <img
-                        src={issue.images[0]}
-                        alt="Issue"
-                        className="issue-image"
-                        style={{
-                          width: '150px',
-                          height: '150px',
-                          objectFit: 'cover',
-                          cursor: 'pointer',
-                          flexShrink: 0, // Prevent image from shrinking
-                        }}
-                        onClick={() => openModal(issue.images[0])}
-                      />
-                    )}
+                    {issue.images?.length > 0 && issue.images.map((img, index) => {
+              const base64Image = bufferToBase64(img.data.data); // Accessing binary data
+              const imgSrc = `data:${img.contentType};base64,${base64Image}`;
+
+              return (
+                <img
+                  key={index}
+                  src={imgSrc}
+                  alt={`Issue ${index + 1}`}
+                  style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '10px' }}
+                  onClick={() => openModal(imgSrc)} />
+              );
+            })}
                   </div>
                 ))}
             </div>
@@ -335,32 +337,25 @@ export default function App() {
                      </h3>
                      <p>Upvoted by {issue.votes} citizens</p>
                      <p>{issue.description}</p>
-                     {issue.upvotedBy.includes(userId) ? (
-                       <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                         <span style={{ color: 'green', fontSize: '1.5em' }}>✓</span>
-                         <span style={{ fontWeight: 'bold', color: 'green' }}>Upvoted</span>
-                       </div>
-                     ) : (
-                       <button className="cta-button" onClick={() => handleUpvote(issue._id)}>
-                         Upvote
+                    
+                       <button className="cta-button" onClick={() => handleNavigation('/dashboard')}>
+                         Know More
                        </button>
-                     )}
+                    
                    </div>
-                   {issue.images?.[0] && (
-                     <img
-                       src={issue.images[0]}
-                       alt="Issue"
-                       className="issue-image"
-                       style={{
-                         width: '150px',
-                         height: '150px',
-                         objectFit: 'cover',
-                         cursor: 'pointer',
-                         flexShrink: 0, // Prevent image from shrinking
-                       }}
-                       onClick={() => openModal(issue.images[0])}
-                     />
-                   )}
+                   {issue.images?.length > 0 && issue.images.map((img, index) => {
+              const base64Image = bufferToBase64(img.data.data); // Accessing binary data
+              const imgSrc = `data:${img.contentType};base64,${base64Image}`;
+
+              return (
+                <img
+                  key={index}
+                  src={imgSrc}
+                  alt={`Issue ${index + 1}`}
+                  style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '10px' }}
+                  onClick={() => openModal(imgSrc)} />
+              );
+            })}
                  </div>
                ))}
            </div>

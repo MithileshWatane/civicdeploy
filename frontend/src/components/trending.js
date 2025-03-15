@@ -11,6 +11,13 @@ export default function Trending() {
   const [userId, setUserId] = useState(null); // Store the decoded user ID
   const [issues, setIssues] = useState([]);
 
+  
+
+    // Function to convert buffer to base64 string
+    const bufferToBase64 = (buffer) => {
+      const binary = new Uint8Array(buffer).reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+      return btoa(binary);
+    };
  const [modalImage, setModalImage] = useState(null);
   
     const openModal = (image) => {
@@ -150,21 +157,19 @@ export default function Trending() {
               </button>
             )}
           </div>
-          {issue.images?.[0] && (
-            <img
-              src={issue.images[0]}
-              alt="Issue"
-              className="issue-image"
-              style={{
-                width: '150px',
-                height: '150px',
-                objectFit: 'cover',
-                cursor: 'pointer',
-                flexShrink: 0, // Prevent image from shrinking
-              }}
-              onClick={() => openModal(issue.images[0])}
-            />
-          )}
+          {issue.images?.length > 0 && issue.images.map((img, index) => {
+              const base64Image = bufferToBase64(img.data.data); // Accessing binary data
+              const imgSrc = `data:${img.contentType};base64,${base64Image}`;
+
+              return (
+                <img
+                  key={index}
+                  src={imgSrc}
+                  alt={`Issue ${index + 1}`}
+                  style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '10px' }}
+                  onClick={() => openModal(imgSrc)} />
+              );
+            })}
         </div>
       ))}
   </div>

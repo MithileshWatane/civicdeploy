@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './styles/complaints.css';
@@ -12,12 +12,42 @@ const customIcon = new L.Icon({
   iconAnchor: [12, 41],
 });
 
-const LocationSelector = ({ setLocation }) => {
+// Component to handle map centering and updates
+const MapController = ({ coordinates, setCoordinates, locateMe, resetLocateMe }) => {
+  const map = useMap();
+  
+  // Handle location button click
+  useEffect(() => {
+    if (locateMe) {
+      map.locate({
+        setView: true,
+        maxZoom: 16
+      });
+      resetLocateMe(); // Reset the trigger after attempting to locate
+    }
+  }, [map, locateMe, resetLocateMe]);
+  
+  // Handle map events
   useMapEvents({
-    click(e) {
-      setLocation({ lat: e.latlng.lat, lng: e.latlng.lng });
+    locationfound(e) {
+      setCoordinates({ lat: e.latlng.lat, lng: e.latlng.lng });
+      map.flyTo(e.latlng, 16);
     },
+    locationerror(e) {
+      console.error("Location error:", e.message);
+      alert("Could not access your location. Please allow location access or manually select a location on the map.");
+      resetLocateMe();
+    },
+    click(e) {
+      setCoordinates({ lat: e.latlng.lat, lng: e.latlng.lng });
+    }
   });
+  
+  // Update map when coordinates change
+  useEffect(() => {
+    map.flyTo([coordinates.lat, coordinates.lng], 16);
+  }, [map, coordinates]);
+  
   return null;
 };
 
@@ -31,10 +61,22 @@ const CivicIssueForm = () => {
     governmentAuthority: '',
   });
 
-  const [coordinates, setCoordinates] = useState({ lat: 28.7041, lng: 77.1025 }); // Default location (Delhi)
+  const [coordinates, setCoordinates] = useState({ lat: 28.7041, lng: 77.1025 }); // Default location
   const [images, setImages] = useState([]);
   const [Authorities, setAuthorities] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [locateMe, setLocateMe] = useState(false);
   const navigate = useNavigate();
+
+  // Function to trigger location finding
+  const handleLocateMe = () => {
+    setLocateMe(true);
+  };
+
+  // Function to reset location trigger
+  const resetLocateMe = () => {
+    setLocateMe(false);
+  };
 
   useEffect(() => {
     const fetchAuthorities = async () => {
@@ -51,12 +93,49 @@ const CivicIssueForm = () => {
   }, []);
 
   useEffect(() => {
-    setFormData((prevData) => ({
+    // Update form data with new coordinates
+    setFormData(prevData => ({
       ...prevData,
       latitude: coordinates.lat,
       longitude: coordinates.lng,
     }));
   }, [coordinates]);
+
+  // Function to handle location search
+  const handleGeocoding = async (e) => {
+    e.preventDefault(); // Prevent form submission
+    
+    if (!formData.location.trim()) return;
+    
+    setIsSearching(true);
+    
+    try {
+      // Using Nominatim for geocoding
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.location)}&limit=1`
+      );
+      const data = await response.json();
+      
+      if (data && data.length > 0) {
+        const { lat, lon } = data[0];
+        
+        // Update coordinates
+        setCoordinates({
+          lat: parseFloat(lat), 
+          lng: parseFloat(lon)
+        });
+        
+        console.log("Search successful:", { lat, lon });
+      } else {
+        alert('Location not found. Please try a different address or select on map.');
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      alert('Error finding location. Please try again or select on map.');
+    } finally {
+      setIsSearching(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -109,8 +188,8 @@ const CivicIssueForm = () => {
 
   return (
     <>
-      <nav className="navbar" style={{ zIndex: 1001}}>
-      <Link to="/" className="logo">Civic<span style={{ color: 'blue' }}>Connect</span></Link>
+      <nav className="navbar" style={{ zIndex: 1001 }}>
+        <Link to="/" className="logo">Civic<span style={{ color: 'blue' }}>Connect</span></Link>
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/trending">Trending Issues</Link></li>
@@ -118,8 +197,6 @@ const CivicIssueForm = () => {
         </ul>
       </nav>
       <div className="issue-form">
-
-
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div>
             <label htmlFor="title">Issue Title:</label>
@@ -144,24 +221,63 @@ const CivicIssueForm = () => {
           </div>
           <div>
             <label htmlFor="location">Location:</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              placeholder="Enter location as a string (e.g., '123 Main St, Springfield')"
-              required
-            />
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                placeholder="Enter an address or location name"
+                style={{ flex: 1 }}
+              />
+              <button 
+                type="button" 
+                onClick={handleGeocoding}
+                style={{ padding: '0 15px', cursor: 'pointer' }}
+                disabled={isSearching}
+              >
+                {isSearching ? 'Searching...' : 'Search'}
+              </button>
+            </div>
           </div>
           <div>
-            <label htmlFor="coordinates">Select Location on Map:</label>
-            <MapContainer center={[coordinates.lat, coordinates.lng]} zoom={13} style={{ height: '300px', width: '100%' }}>
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <LocationSelector setLocation={setCoordinates} />
-              <Marker position={[coordinates.lat, coordinates.lng]} icon={customIcon} />
-            </MapContainer>
-            <p>Selected Location: {coordinates.lat}, {coordinates.lng}</p>
+            <label>Location on Map:</label>
+            <div style={{ height: '300px', width: '100%', position: 'relative', marginBottom: '10px' }}>
+              <MapContainer 
+                center={[coordinates.lat, coordinates.lng]}
+                zoom={13} 
+                style={{ height: '100%', width: '100%' }}
+              >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <MapController 
+                  coordinates={coordinates}
+                  setCoordinates={setCoordinates}
+                  locateMe={locateMe}
+                  resetLocateMe={resetLocateMe}
+                />
+                <Marker position={[coordinates.lat, coordinates.lng]} icon={customIcon} />
+              </MapContainer>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <button 
+                type="button"
+                onClick={handleLocateMe}
+                style={{ 
+                  padding: '8px 15px', 
+                  backgroundColor: '#4285F4', 
+                  color: 'white', 
+                  border: 'none', 
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Get Current Location
+              </button>
+              <p className="coordinates-display" style={{ margin: 0 }}>
+                Coordinates: {coordinates.lat.toFixed(6)}, {coordinates.lng.toFixed(6)}
+              </p>
+            </div>
           </div>
           <div>
             <label htmlFor="governmentAuthority">Assign to Authority:</label>

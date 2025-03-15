@@ -16,6 +16,13 @@ export default function Dashboard() {
     resolved: 0,
   });
 
+  
+
+    // Function to convert buffer to base64 string
+    const bufferToBase64 = (buffer) => {
+      const binary = new Uint8Array(buffer).reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+      return btoa(binary);
+    };
  const [modalImage, setModalImage] = useState(null);
   
     const openModal = (image) => {
@@ -285,21 +292,19 @@ export default function Dashboard() {
           </select>
         </div>
         
-        {complaint.images?.[0] && (
-          <img
-            src={complaint.images[0]}
-            alt="Issue"
-            className="issue-image"
-            style={{
-              width: '150px',
-              height: '150px',
-              objectFit: 'cover',
-              cursor: 'pointer',
-              flexShrink: 0, // Prevent image from shrinking
-            }}
-            onClick={() => openModal(complaint.images[0])}
-          />
-        )}
+        {complaint.images?.length > 0 && complaint.images.map((img, index) => {
+              const base64Image = bufferToBase64(img.data.data); // Accessing binary data
+              const imgSrc = `data:${img.contentType};base64,${base64Image}`;
+
+              return (
+                <img
+                  key={index}
+                  src={imgSrc}
+                  alt={`Issue ${index + 1}`}
+                  style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '10px' }}
+                  onClick={() => openModal(imgSrc)} />
+              );
+            })}
       </div>
     ))
   ) : (

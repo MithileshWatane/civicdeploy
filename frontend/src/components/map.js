@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './styles/trending.css';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';  // Corrected import
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup , useMap  } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './mapstyles.css'
@@ -26,8 +26,13 @@ export default function Map() {
     const [userId, setUserId] = useState(null); // Store the decoded user ID
     const [issues, setIssues] = useState([]);
     const [activeMarker, setActiveMarker] = useState(null); // Store active marker
-  
-  
+    const [map, setMap] = useState(null); // Initialize map state
+
+    const FlyToMarker = ({ lat, lng }) => {
+      const map = useMap();
+      map.flyTo([lat, lng], 12); // Focus on marker
+      return null;
+    };  
     const customIcon = new L.Icon({
       iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png", // Custom marker icon
       iconSize: [40, 40], // Size of the icon
@@ -207,8 +212,11 @@ return (
             </div>
           </div>
         </div>
-        
-        <MapContainer center={[28.7041, 77.1025]} zoom={5} style={{ height: "500px", width: "100%", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)" }}>
+        <MapContainer
+      center={[28.7041, 77.1025]}
+      zoom={5}
+      style={{ height: "500px", width: "100%", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)" }}
+    >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -223,16 +231,16 @@ return (
               position={[issue.latitude, issue.longitude]}
               icon={getCustomIcon(issue.status.toLowerCase())}
               eventHandlers={{
-                mouseover: (e) => e.target.openPopup(), // Open on hover
+                mouseover: (e) => e.target.openPopup(),
                 mouseout: (e) => {
-                  if (activeMarker !== issue._id) e.target.closePopup(); // Close if not clicked
+                  if (activeMarker !== issue._id) e.target.closePopup();
                 },
                 click: (e) => {
-                  setActiveMarker(issue._id); // Set the active marker
-                  e.target.openPopup(); // Keep popup open on click
+                  setActiveMarker(issue._id);
                 },
               }}
             >
+              {activeMarker === issue._id && <FlyToMarker lat={issue.latitude} lng={issue.longitude} />}
               <Popup>
                 <strong style={{ fontSize: "16px", color: "#333" }}>{issue.title}</strong>
                 <br />
@@ -250,6 +258,7 @@ return (
           )
       )}
     </MapContainer>
+
       </div>
     </div>
   </div>
