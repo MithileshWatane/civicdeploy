@@ -262,51 +262,71 @@ export default function Dashboard() {
         <div id="complaintsContainer" className="complaints-container">
   <h2>Complaint Details</h2>
   {filteredComplaints.length > 0 ? (
-    filteredComplaints.map((complaint) => (
-      <div
-        key={complaint._id}
-        className="complaint-card"
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}
-      >
-        <div style={{ flex: 1 }}>
-          <h3>{complaint.title}</h3>
-          <p>{complaint.description}</p>
-          <p><strong>Location:</strong> {complaint.location}</p>
-          <p className="complaint-status">
-            <strong>Status:</strong> {complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)}
-          </p>
-          <label htmlFor={`status-select-${complaint._id}`} className="status-label">
-            Change Status:
-          </label>
-          <select
-            id={`status-select-${complaint._id}`}
-            value={complaint.status}
-            onChange={(e) => changeStatus(complaint._id, e.target.value)}
-            className="status-dropdown"
-          >
-            {allStatuses.filter((status) => status !== 'all').map((status) => (
-              <option key={status} value={status}>
-                {status.charAt(0).toUpperCase() + status.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        {complaint.images?.length > 0 && complaint.images.map((img, index) => {
-              const base64Image = bufferToBase64(img.data.data); // Accessing binary data
-              const imgSrc = `data:${img.contentType};base64,${base64Image}`;
+    [...filteredComplaints]
+      .sort((a, b) => (a.flags || 0) - (b.flags || 0)) // Sort by flag count in reverse order
+      .map((complaint) => (
+        <div
+          key={complaint._id}
+          className="complaint-card"
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            gap: '20px',
+            backgroundColor: complaint.flags < 2 ? 'white' : '#fff8f8', // Light red background for heavily flagged complaints
+            borderLeft: complaint.flags >  2 ? '4px solid #ff4d4d' : 'none'
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <h3>{complaint.title}</h3>
+            <p>{complaint.description}</p>
+            <p><strong>Location:</strong> {complaint.location}</p>
+            <p className="complaint-status">
+              <strong>Status:</strong> {complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)}
+            </p>
+            <label htmlFor={`status-select-${complaint._id}`} className="status-label">
+              Change Status:
+            </label>
+            <select
+              id={`status-select-${complaint._id}`}
+              value={complaint.status}
+              onChange={(e) => changeStatus(complaint._id, e.target.value)}
+              className="status-dropdown"
+            >
+              {allStatuses.filter((status) => status !== 'all').map((status) => (
+                <option key={status} value={status}>
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </option>
+              ))}
+            </select>
+            {complaint.flags > 1 && (
+              <p style={{ 
+                backgroundColor: 'white', 
+                color: 'red', 
+                padding: '5px 10px', 
+                borderRadius: '4px', 
+                marginTop: '8px',
+              }}>
+                <strong>Warning:</strong> Complaint seems to be fake. Flagged by {complaint.flags} {complaint.flags === 1 ? 'person' : 'people'}.
+              </p>
+            )}
+          </div>
+          
+          {complaint.images?.length > 0 && complaint.images.map((img, index) => {
+            const base64Image = bufferToBase64(img.data.data); // Accessing binary data
+            const imgSrc = `data:${img.contentType};base64,${base64Image}`;
 
-              return (
-                <img
-                  key={index}
-                  src={imgSrc}
-                  alt={`Issue ${index + 1}`}
-                  style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '10px' }}
-                  onClick={() => openModal(imgSrc)} />
-              );
-            })}
-      </div>
-    ))
+            return (
+              <img
+                key={index}
+                src={imgSrc}
+                alt={`Issue ${index + 1}`}
+                style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '10px' }}
+                onClick={() => openModal(imgSrc)} />
+            );
+          })}
+        </div>
+      ))
   ) : (
     <p>No complaints found for the selected title.</p>
   )}

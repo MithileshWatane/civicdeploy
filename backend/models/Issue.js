@@ -12,6 +12,11 @@ const issueSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   votes: { type: Number, default: 0 },
   upvotedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  
+  // Flagging feature
+  flags: { type: Number, default: 0 },
+  flaggedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+
   images: [
     {
       filename: { type: String, required: true },

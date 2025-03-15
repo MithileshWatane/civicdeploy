@@ -102,6 +102,37 @@ export default function Trending() {
     }
   };
 
+  // New function to handle flagging issues
+  const handleFlag = async (issueId) => {
+    try {
+      const response = await axios.put(
+        `https://civicdeploy-1.onrender.com/api/issues/flag/${issueId}`,
+        { flag: true },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      // Update the state to reflect the new flags and flaggedBy data
+      setTrendingIssues((prevIssues) =>
+        prevIssues.map((issue) =>
+          issue._id === issueId
+            ? {
+                ...issue,
+                flags: response.data.flags,
+                flaggedBy: [...(issue.flaggedBy || []), userId],  // Add userId to flaggedBy array
+              }
+            : issue
+        )
+      );
+      
+    } catch (error) {
+      console.error('Error flagging issue:', error);
+    }
+  };
+
   return (
 <>
   <nav className="navbar">
@@ -125,8 +156,14 @@ export default function Trending() {
   <h2>Trending Issues</h2>
   <div className="issue-card-container" style={{ display: 'flex', gap: '20px' }}>
     {trendingIssues
-      .filter((issue) => issue.status !== 'resolved') // Exclude resolved issues
-      .sort((a, b) => b.votes - a.votes)
+     .filter((issue) => issue.status !== 'resolved') // Exclude resolved issues
+     .sort((a, b) => {
+       // Calculate the difference between upvotes and flags for each issue
+       const aScore = a.votes - (a.flags || 0);
+       const bScore = b.votes - (b.flags || 0);
+       // Sort by the difference in descending order
+       return bScore - aScore;
+     })
       .map((issue, index) => (
         <div
           className="issue-card"
@@ -146,15 +183,45 @@ export default function Trending() {
             </h3>
             <p>Upvoted by {issue.votes} citizens</p>
             <p>{issue.description}</p>
-            {issue.upvotedBy.includes(userId) ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <span style={{ color: 'green', fontSize: '1.5em' }}>✓</span>
-                <span style={{ fontWeight: 'bold', color: 'green' }}>Upvoted</span>
-              </div>
-            ) : (
-              <button className="cta-button" onClick={() => handleUpvote(issue._id)}>
-                Upvote
-              </button>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {issue.upvotedBy?.includes(userId) ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <span style={{ color: 'green', fontSize: '1.5em' }}>✓</span>
+                  <span style={{ fontWeight: 'bold', color: 'green' }}>Upvoted</span>
+                </div>
+              ) : (
+                <button className="cta-button" onClick={() => handleUpvote(issue._id)}>
+                  Upvote
+                </button>
+              )}
+              
+              {/* Flag button and status */}
+              {issue.flaggedBy?.includes(userId) ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <span style={{ color: 'red', fontSize: '1.5em' }}>⚑</span>
+                  <span style={{ color: 'red' }}>Flagged</span>
+                </div>
+              ) : (
+                <button 
+                  className="cta-button" 
+                  onClick={() => handleFlag(issue._id)}
+                  style={{ 
+                    backgroundColor: ' rgb(247, 106, 106)', 
+                    color: 'white', 
+                    padding: '8px 16px', 
+                    border: 'none', 
+                    borderRadius: '4px', 
+                    cursor: 'pointer' 
+                  }}
+                >
+                  Flag Issue
+                </button>
+              )}
+            </div>
+            {issue.flags > 0 && (
+              <p style={{ color: '#ff4d4d', marginTop: '5px', fontSize: '0.9em' }}>
+                Flagged by {issue.flags} {issue.flags === 1 ? 'user' : 'users'}
+              </p>
             )}
           </div>
           {issue.images?.length > 0 && issue.images.map((img, index) => {
