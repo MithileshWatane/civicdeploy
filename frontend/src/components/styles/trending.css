@@ -1,287 +1,428 @@
-/* Global Styles */
-html, body {
-    height: 100%;
-  }
-  
-/* Global Styles */
-html, body {
-    height: 100%;
-  }
-  
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    display: flex;
-    flex-direction: column; /* Allow the footer to be pushed to the bottom */
-  }
-  
-  /* Navbar Styling */
-  .navbar {
-    background-color: #007bff; /* Blue color */
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar .logo {
-    color: #fff;
-    font-size: 24px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  .navbar ul li {
-    margin-left: 20px;
-  }
-  
-  .navbar ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 15px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .navbar ul li a:hover {
-    background-color: #0056b3; /* Darker blue */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-  }
-  
-  /* Trending Section */
-  .trending-section {
-    flex: 1; /* Allow the section to grow and fill space */
-    margin: 20px auto;
-    /* padding: 20px; */
-    background-color: #fff;
-    border-radius: 8px;
-    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
-    width: 100%;
+/* styles/trending-split.css */
 
+/* Global styles */
+.trending-split-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Text highlights */
+.text-orange {
+  color: #ff7b54;
+}
+
+.text-blue {
+  color: #3a86ff;
+}
+
+/* Left side - Trending Issues */
+.trending-issues-section {
+  flex: 3;
+  padding: 5rem;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  border-right: 1px solid #e9ecef;
+}
+
+.trending-header {
+  margin-bottom: 2rem;
+}
+
+.trending-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.trending-header p {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+.issues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Issue Cards */
+.trending-issue-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.issue-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.issue-card-image {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.issue-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+}
+
+.issue-priority-badge {
+  align-self: flex-start;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.issue-priority-badge[data-priority='high-priority'] {
+  background-color: #209a75;
+}
+
+.issue-priority-badge[data-priority='medium-priority'] {
+  background-color: #fd7e14;
+}
+
+.issue-priority-badge[data-priority='community-project'] {
+  background-color: #20c997;
+}
+
+.issue-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.issue-card-content {
+  padding: 1.25rem;
+}
+
+.issue-category {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.issue-category[data-category='infrastructure'] {
+  background-color: #ffe8d9;
+  color: #d35400;
+}
+
+.issue-category[data-category='public-safety'] {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.issue-category[data-category='community-project'] {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.category-icon {
+  margin-right: 0.5rem;
+}
+
+.issue-location {
+  display: flex;
+  align-items: center;
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.issue-location svg {
+  margin-right: 0.5rem;
+}
+
+.issue-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.issue-description {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.issue-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.supporters {
+  display: flex;
+  align-items: center;
+}
+
+.avatars {
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-right: -8px;
+  border: 2px solid white;
+}
+
+.supporters span {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.cta-button {
+  background-color: #3a86ff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #2563eb;
+}
+
+.upvoted-indicator {
+  display: flex;
+  align-items: center;
+  color: #10b981;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.checkmark {
+  font-size: 1.2rem;
+  margin-right: 0.25rem;
+}
+
+/* Right side - Benefits */
+.benefits-section {
+  flex: 2;
+  padding-top: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+   
+
+
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+.benefits-header {
+  margin-bottom: 2rem;
+}
+
+.benefits-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.benefits-header p {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.benefits-tabs {
+  display: flex;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 1.5rem;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6c757d;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tab-button.active {
+  color: #3a86ff;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #3a86ff;
+  border-radius: 3px 3px 0 0;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.benefit-card {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+}
+
+.benefit-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.benefit-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.benefit-card p {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.impact-stats {
+  grid-column: 1 / -1;
+  background-color: #f0f7ff;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.impact-stats h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3a86ff;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.cta-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.cta-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.cta-section p {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.report-button {
+  display: inline-block;
+  background-color: #ff7b54;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.report-button:hover {
+  background-color: #ff6b3d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .trending-split-container {
+    flex-direction: column;
   }
   
-  .trending-section h2 {
-    font-size: 32px;
-    color: #007bff; /* Blue color */
-    text-align: center;
-    margin-top: 60px;
-    margin-bottom: 50px;
+  .trending-issues-section,
+  .benefits-section {
+    flex: none;
   }
   
-  /* Issue Card Container */
-  .issue-card-container {
-    display: flex;
-    /* flex-direction: column; */
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .issues-grid {
+    grid-template-columns: 1fr;
   }
   
-  /* Issue Card */
-  .issue-card {
-    /* background-color: #f9f9f9; */
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 70%;
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .issue-card:hover {
-    transform: translateY(-5px); /* Lift card effect */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
-  }
-  
-  .issue-card h3 {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .issue-card p {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .cta-button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #007bff; /* Blue color */
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .cta-button:hover {
-    background-color: #0056b3; /* Darker blue */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-  }
-  
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #007bff; /* Blue color */
-    color: #fff;
-  }
-  
-  footer p {
-    margin: 0;
-  }
-  
-  
-  /* Navbar Styling */
-  .navbar {
-    background-color: #007bff; /* Blue color */
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar .logo {
-    color: #fff;
-    font-size: 24px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  .navbar ul li {
-    margin-left: 20px;
-  }
-  
-  .navbar ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 15px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .navbar ul li a:hover {
-    background-color: #0056b3; /* Darker blue */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-  }
-  
-  /* Trending Section */
-  .trending-section {
-    flex: 1; /* Allow the section to grow and fill space */
-    /* max-width: 1200px; */
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .trending-section h2 {
-    font-size: 32px;
-    color: #007bff; /* Blue color */
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Issue Card Container */
-  .issue-card-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  /* Issue Card */
-  .issue-card {
-    /* background-color: #ffffff; */
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .issue-card:hover {
-    transform: translateY(-5px); /* Lift card effect */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
-  }
-  
-  .issue-card h3 {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .issue-card p {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .cta-button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #007bff; /* Blue color */
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .cta-button:hover {
-    background-color: #0056b3; /* Darker blue */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-  }
-  
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #007bff; /* Blue color */
-    color: #fff;
-  }
-  
-  footer p {
-    position: sticky;
-    margin: 0;
-  }
-  
-  .trending-icon {
-    /* position: absolute; */
-    top: 10px;
-    right: 10px; /* Adjusted for top-right placement */
-    width: 40px; /* Adjust the size as needed */
-    height: 40px;
-    z-index: 10;
-  }
-  
-  .issue-card {
-    position: relative; 
-    padding: 15px;
-    margin: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
-  
+}

@@ -38,7 +38,7 @@ export default function Dashboard() {
   const fetchComplaints = async () => {
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     try {
-      const response = await fetch('https://civicdeploy-1.onrender.com/api/governmentid/reported-issues', {
+      const response = await fetch('http://localhost:5000/api/governmentid/reported-issues', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the headers
@@ -113,7 +113,7 @@ export default function Dashboard() {
   const changeStatus = async (id, newStatus) => {
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     try {
-      const response = await fetch(`https://civicdeploy-1.onrender.com/api/issues/modify/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/issues/modify/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -307,7 +307,7 @@ export default function Dashboard() {
                 borderRadius: '4px', 
                 marginTop: '8px',
               }}>
-                <strong>Warning:</strong> Complaint seems to be fake. Flagged by {complaint.flags} {complaint.flags === 1 ? 'person' : 'people'}.
+                <strong>Warning:</strong>Complaint seems to be suspicious. Flagged by {complaint.flags} {complaint.flags === 1 ? 'person' : 'people'}.
               </p>
             )}
           </div>

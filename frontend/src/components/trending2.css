@@ -1,0 +1,287 @@
+/* Global Styles */
+html, body {
+    height: 100%;
+  }
+  
+/* Global Styles */
+html, body {
+    height: 100%;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Allow the footer to be pushed to the bottom */
+  }
+  
+  /* Navbar Styling */
+  .navbar {
+    background-color: #007bff; /* Blue color */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar .logo {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  .navbar ul li {
+    margin-left: 20px;
+  }
+  
+  .navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .navbar ul li a:hover {
+    background-color: #0056b3; /* Darker blue */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  /* Trending Section */
+  .trending-section {
+    flex: 1; /* Allow the section to grow and fill space */
+    margin: 20px auto;
+    /* padding: 20px; */
+    background-color: #fff;
+    border-radius: 8px;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+    width: 100%;
+
+  }
+  
+  .trending-section h2 {
+    font-size: 32px;
+    color: #007bff; /* Blue color */
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 50px;
+  }
+  
+  /* Issue Card Container */
+  .issue-card-container {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Issue Card */
+  .issue-card {
+    /* background-color: #f9f9f9; */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 70%;
+  }
+  
+  .issue-card:hover {
+    transform: translateY(-5px); /* Lift card effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+  }
+  
+  .issue-card h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .issue-card p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff; /* Blue color */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #0056b3; /* Darker blue */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff; /* Blue color */
+    color: #fff;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  
+  
+  /* Navbar Styling */
+  .navbar {
+    background-color: #007bff; /* Blue color */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar .logo {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  .navbar ul li {
+    margin-left: 20px;
+  }
+  
+  .navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .navbar ul li a:hover {
+    background-color: #0056b3; /* Darker blue */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  /* Trending Section */
+  .trending-section {
+    flex: 1; /* Allow the section to grow and fill space */
+    /* max-width: 1200px; */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trending-section h2 {
+    font-size: 32px;
+    color: #007bff; /* Blue color */
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Issue Card Container */
+  .issue-card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Issue Card */
+  .issue-card {
+    /* background-color: #ffffff; */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .issue-card:hover {
+    transform: translateY(-5px); /* Lift card effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+  }
+  
+  .issue-card h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .issue-card p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff; /* Blue color */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #0056b3; /* Darker blue */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff; /* Blue color */
+    color: #fff;
+  }
+  
+  footer p {
+    position: sticky;
+    margin: 0;
+  }
+  
+  .trending-icon {
+    /* position: absolute; */
+    top: 10px;
+    right: 10px; /* Adjusted for top-right placement */
+    width: 40px; /* Adjust the size as needed */
+    height: 40px;
+    z-index: 10;
+  }
+  
+  .issue-card {
+    position: relative; 
+    padding: 15px;
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
