@@ -25,7 +25,7 @@ export default function CommunityUpdated() {
     }
   
     try {
-      const response = await axios.get('http://localhost:5000/api/community/projects', {
+      const response = await axios.get('https://civicdeploy-1.onrender.com/api/community/projects', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +38,7 @@ export default function CommunityUpdated() {
           let creatorInfo = null;
           if (project.createdBy) {
             try {
-              const userResponse = await axios.get(`http://localhost:5000/api/users/${project.createdBy}`);
+              const userResponse = await axios.get(`https://civicdeploy-1.onrender.com/api/users/${project.createdBy}`);
               creatorInfo = userResponse.data; // Attach creator info to project
             } catch (error) {
               console.error(`Error fetching user info for project ${project._id}`, error);
@@ -111,7 +111,7 @@ export default function CommunityUpdated() {
   
     try {
       await axios.post(
-        `http://localhost:5000/api/community/projects/${projectId}/contribute`,
+        `https://civicdeploy-1.onrender.com/api/community/projects/${projectId}/contribute`,
         { amount: 1 },
         {
           headers: {
