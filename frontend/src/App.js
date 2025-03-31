@@ -8,6 +8,7 @@ import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './components/dashboard';
 import Profile from './components/profile';
+import Category from './components/Category';
 // import Navbar from './components/Navbar.js';
 // import './index.css'; // or './App.css'
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/category" element={<Category />} />
 
       </Routes>
     </Router>

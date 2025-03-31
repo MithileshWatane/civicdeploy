@@ -16,6 +16,14 @@ const issueSchema = new mongoose.Schema({
   // Flagging feature
   flags: { type: Number, default: 0 },
   flaggedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  flaggedReasons: [
+    {
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // User who flagged
+      reason: { type: String, required: true }, // Reason for flagging
+      flaggedAt: { type: Date, default: Date.now } // Timestamp
+    }
+  ],
+  
 
   images: [
     {

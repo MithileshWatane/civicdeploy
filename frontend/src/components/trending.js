@@ -48,7 +48,7 @@ export default function Trending() {
         const token = localStorage.getItem('token'); // Get the token once
   
         // Fetch trending issues
-        const response = await axios.get('https://civicdeploy-1.onrender.com/api/issues/get', {
+        const response = await axios.get('http://localhost:5000/api/issues/get', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -56,7 +56,7 @@ export default function Trending() {
         setTrendingIssues(response.data.issues);
   
         // Fetch user's reported issues
-        const issuesResponse = await axios.get('https://civicdeploy-1.onrender.com/api/issues/user', {
+        const issuesResponse = await axios.get('http://localhost:5000/api/issues/user', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -75,7 +75,7 @@ export default function Trending() {
   const handleUpvote = async (issueId) => {
     try {
       const response = await axios.put(
-        `https://civicdeploy-1.onrender.com/api/issues/trending/${issueId}/upvote`,
+        `http://localhost:5000/api/issues/trending/${issueId}/upvote`,
         { upvote: true },
         {
           headers: {
@@ -91,7 +91,7 @@ export default function Trending() {
             ? {
                 ...issue,
                 votes: response.data.votes,
-                upvotedBy: [...issue.upvotedBy, userId],  // Add userId to upvotedBy array
+                upvotedBy: [...issue.upvotedBy, userId], // Add userId to upvotedBy array
               }
             : issue
         )
@@ -102,36 +102,41 @@ export default function Trending() {
     }
   };
 
-  // New function to handle flagging issues
-  const handleFlag = async (issueId) => {
+   // New function to handle flagging issues
+   const handleFlag = async (issueId) => {
+    const reason = prompt("Why are you flagging this issue?");
+    if (!reason) {
+      alert("Flag reason is required!");
+      return;
+    }
+  
     try {
       const response = await axios.put(
-        `https://civicdeploy-1.onrender.com/api/issues/flag/${issueId}`,
-        { flag: true },
+        `http://localhost:5000/api/issues/flag/${issueId}`,
+        { reason }, // Send reason
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-
-      // Update the state to reflect the new flags and flaggedBy data
+  
+      // Update the state to reflect the new flags, flaggedReasons, and flaggedBy data
       setTrendingIssues((prevIssues) =>
         prevIssues.map((issue) =>
           issue._id === issueId
-            ? {
-                ...issue,
-                flags: response.data.flags,
-                flaggedBy: [...(issue.flaggedBy || []), userId],  // Add userId to flaggedBy array
+            ? { 
+                ...issue, 
+                flags: response.data.flags, 
+                flaggedReasons: response.data.flaggedReasons, 
+                flaggedBy: [...(issue.flaggedBy || []), userId] // Ensure user ID is added to flaggedBy
               }
             : issue
         )
       );
-      
     } catch (error) {
       console.error('Error flagging issue:', error);
     }
   };
+  
 
   // Get issue category from title
   const getIssueCategory = (title) => {

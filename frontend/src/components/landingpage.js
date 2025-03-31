@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './trending2.css';
 import axios from 'axios';
 import './styles/index.css';
-import { jwtDecode } from 'jwt-decode';  // Corrected import
+import { jwtDecode } from 'jwt-decode'; // Corrected import
 import Map from './map';
 
 
@@ -105,7 +105,7 @@ export default function App() {
   useEffect(() => {
     const fetchTrendingIssues = async () => {
       try {
-        const response = await axios.get('https://civicdeploy-1.onrender.com/api/issues/get', {
+        const response = await axios.get('http://localhost:5000/api/issues/get', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // Send the token for authentication
           },
@@ -122,7 +122,7 @@ export default function App() {
   const handleUpvote = async (issueId) => {
     try {
       const response = await axios.put(
-        `https://civicdeploy-1.onrender.com/api/issues/trending/${issueId}/upvote`,
+        `http://localhost:5000/api/issues/trending/${issueId}/upvote`,
         { upvote: true },
         {
           headers: {
@@ -138,7 +138,7 @@ export default function App() {
             ? {
                 ...issue,
                 votes: response.data.votes,
-                upvotedBy: [...issue.upvotedBy, userId],  // Add userId to upvotedBy array
+                upvotedBy: [...issue.upvotedBy, userId], // Add userId to upvotedBy array
               }
             : issue
         )
@@ -154,34 +154,39 @@ export default function App() {
   
   // New function to handle flagging issues
   const handleFlag = async (issueId) => {
+    const reason = prompt("Why are you flagging this issue?");
+    if (!reason) {
+      alert("Flag reason is required!");
+      return;
+    }
+  
     try {
       const response = await axios.put(
-        `https://civicdeploy-1.onrender.com/api/issues/flag/${issueId}`,
-        { flag: true },
+        `http://localhost:5000/api/issues/flag/${issueId}`,
+        { reason }, // Send reason
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-
-      // Update the state to reflect the new flags and flaggedBy data
+  
+      // Update the state to reflect the new flags, flaggedReasons, and flaggedBy data
       setTrendingIssues((prevIssues) =>
         prevIssues.map((issue) =>
           issue._id === issueId
-            ? {
-                ...issue,
-                flags: response.data.flags,
-                flaggedBy: [...(issue.flaggedBy || []), userId],  // Add userId to flaggedBy array
+            ? { 
+                ...issue, 
+                flags: response.data.flags, 
+                flaggedReasons: response.data.flaggedReasons, 
+                flaggedBy: [...(issue.flaggedBy || []), userId] // Ensure user ID is added to flaggedBy
               }
             : issue
         )
       );
-      
     } catch (error) {
       console.error('Error flagging issue:', error);
     }
   };
+  
   return (
 
     <>
@@ -227,9 +232,16 @@ export default function App() {
             </>
           )}
           {role === 'government' && (
+            <>
             <li onClick={() => handleNavigation('/dashboard')}>
               <Link to="/">Track Progress</Link>
             </li>
+
+            <li onClick={() => handleNavigation('/category')}>
+              <Link to="/">category</Link>
+            </li>
+            </>
+             
           )}
           {isLoggedIn ? (
             <>
@@ -257,8 +269,8 @@ export default function App() {
         <div className="overlay" />
         <div className="hero-content" >
           <h1>'Empower Your Voice'</h1>
-          <p>Report issues, Track progress  and Contribute to community.</p>
-          <Link to="/issue" className="btn hero-btn"  >
+          <p>Report issues, Track progress and Contribute to community.</p>
+          <Link to="/issue" className="btn hero-btn" >
             Report Now
           </Link>
         </div>
@@ -269,7 +281,7 @@ export default function App() {
         <div className="overlay" />
         <div className="hero-content" >
           <h1>'Empower Your Voice'</h1>
-          <p>Report issues, Track progress  and Contribute to community.</p>
+          <p>Report issues, Track progress and Contribute to community.</p>
           
         </div>
       </header>
@@ -459,7 +471,7 @@ export default function App() {
             <div className="card-image"></div>
             <div className="card-content">
               <h3>Track Progress</h3>
-              <p>Monitor the reported issues in real time, ensuring you stay informed about their status and the steps being taken to resolve them</p>
+              <p>Monitor the reported issues in real time, ensuring you stay informed about their status and the steps being taken to resolve them</p>
               <Link to="/dashboard" className="btn">
                 Check Status
               </Link>
@@ -477,7 +489,7 @@ export default function App() {
            <div class="card-image"></div>
            <div class="card-content" onClick={handleReportIssueClick1}>
            <h3>Report Issues</h3>
-             <p>Quickly and effortlessly report civic issues affecting your community to ensure a cleaner, safer, and better place for everyone around you.</p>
+             <p>Quickly and effortlessly report civic issues affecting your community to ensure a cleaner, safer, and better place for everyone around you.</p>
              <Link to="/" className="btn" >
                Get Started
              </Link>
@@ -489,7 +501,7 @@ export default function App() {
            <div class="card-image"></div>
            <div class="card-content" onClick={handleReportIssueClick2}>
            <h3>Trending Issues</h3>
-             <p>Stay updated on the most discussed issues in your area and get the latest insights to understand what's impacting your community and how you can stay informed.</p>
+             <p>Stay updated on the most discussed issues in your area and get the latest insights to understand what's impacting your community and how you can stay informed.</p>
              <Link to="/" className="btn">
                Explore Now
              </Link>
@@ -499,7 +511,7 @@ export default function App() {
            <div class="card-image"></div>
            <div class="card-content" onClick={handleReportIssueClick3}>
            <h3>Volunteering </h3>
-           <p>Contribute your time and skills to initiatives that aim to enhance our community. Together, we can achieve great things through collective effort and dedication!</p>
+           <p>Contribute your time and skills to initiatives that aim to enhance our community. Together, we can achieve great things through collective effort and dedication!</p>
              <Link to="/" className="btn">
                Let's Do
              </Link>
@@ -508,7 +520,7 @@ export default function App() {
            <div class="card-image"></div>
            <div class="card-content" onClick={handleReportIssueClick4}>
            <h3>Track Progress</h3>
-           <p>Monitor the reported issues in real time, ensuring you stay informed about their status and the steps being taken to resolve them</p>
+           <p>Monitor the reported issues in real time, ensuring you stay informed about their status and the steps being taken to resolve them</p>
            <Link to="/" className="btn">
                Check Status
              </Link>
@@ -517,7 +529,7 @@ export default function App() {
            <div class="card-image"></div>
            <div class="card-content" onClick={handleReportIssueClick3}>
            <h3>Community Engagement</h3>
-           <p>Together, we shape the future. Every voice matters, every effort counts. Volunteer, participate, and make a difference. This is by the people, for the people.</p>
+           <p>Together, we shape the future. Every voice matters, every effort counts. Volunteer, participate, and make a difference. This is by the people, for the people.</p>
            <Link to="/" className="btn">
                Join Us
              </Link>
@@ -621,7 +633,7 @@ export default function App() {
             <div className="overlay" />
             <div className="hero-content">
               <h1>'Empower Your Voice'</h1>
-              <p>Report issues, Track progress  and Contribute to community.</p>
+              <p>Report issues, Track progress and Contribute to community.</p>
               <div>
               <Link to="/" className="btn hero-btn" onClick={handleReportIssueClick1} >
                 Report Now
@@ -646,7 +658,7 @@ export default function App() {
               <div class="card-image"></div>
               <div class="card-content" onClick={handleReportIssueClick1}>
               <h3>Report Issues</h3>
-              <p>Quickly and effortlessly report civic issues affecting your community to ensure a cleaner, safer, and better place for everyone around you.</p>
+              <p>Quickly and effortlessly report civic issues affecting your community to ensure a cleaner, safer, and better place for everyone around you.</p>
               <Link to="/" className="btn" >
                   Get Started
                 </Link>
@@ -658,7 +670,7 @@ export default function App() {
               <div class="card-image"></div>
               <div class="card-content" onClick={handleReportIssueClick2}>
               <h3>Trending Issues</h3>
-              <p>Stay updated on the most discussed issues in your area and get the latest insights to understand what's impacting your community and how you can stay informed.</p>
+              <p>Stay updated on the most discussed issues in your area and get the latest insights to understand what's impacting your community and how you can stay informed.</p>
               <Link to="/" className="btn">
                   Explore Now
                 </Link>
@@ -668,7 +680,7 @@ export default function App() {
               <div class="card-image"></div>
               <div class="card-content" onClick={handleReportIssueClick3}>
               <h3>Volunteering </h3>
-                <p>Contribute your time and skills to initiatives that aim to enhance our community. Together, we can achieve great things through collective effort and dedication!</p>
+                <p>Contribute your time and skills to initiatives that aim to enhance our community. Together, we can achieve great things through collective effort and dedication!</p>
                 <Link to="/" className="btn">
                 Let's Do
                 </Link>
@@ -677,7 +689,7 @@ export default function App() {
               <div class="card-image"></div>
               <div class="card-content" onClick={handleReportIssueClick4}>
               <h3>Track Progress</h3>
-                <p>Monitor the reported issues in real time, ensuring you stay informed about their status and the steps being taken to resolve them</p>
+                <p>Monitor the reported issues in real time, ensuring you stay informed about their status and the steps being taken to resolve them</p>
                 <Link to="/" className="btn">
                   Check Status
                 </Link>
@@ -686,7 +698,7 @@ export default function App() {
               <div class="card-image"></div>
               <div class="card-content" onClick={handleReportIssueClick3}>
               <h3>Community Engagement</h3>
-                <p>Together, we shape the future. Every voice matters, every effort counts. Volunteer, participate, and make a difference. This is by the people, for the people.</p>
+                <p>Together, we shape the future. Every voice matters, every effort counts. Volunteer, participate, and make a difference. This is by the people, for the people.</p>
                 <Link to="/" className="btn">
                   Join Us
                 </Link>
@@ -754,4 +766,5 @@ export default function App() {
         
          )}
     </>
-    )}
+    )
+  }

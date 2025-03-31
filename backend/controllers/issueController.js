@@ -181,50 +181,47 @@ exports.upvoteIssue = async (req, res) => {
 };
 
 exports.flagIssue = async (req, res) => {
-  const { id } = req.params; // Get the issue ID from the URL
-  const { flag } = req.body; // Get flag action from the request body
+  const { id } = req.params; // Issue ID
+  const { reason } = req.body; // Reason for flagging
 
   try {
-    // Ensure req.user is defined
     if (!req.user || !req.user.id) {
       return res.status(401).json({ message: 'Unauthorized: User not authenticated' });
     }
 
-    const userId = req.user.id; // User ID of the authenticated user
+    const userId = req.user.id; // Authenticated user's ID
 
-    // Check if the request is to flag the issue
-    if (flag) {
-      // Find the issue by ID
-      const issue = await Issue.findById(id);
-
-      if (!issue) {
-        return res.status(404).json({ message: 'Issue not found' });
-      }
-
-      // Check if the user has already flagged
-      if (issue.flaggedBy.includes(userId)) {
-        return res.status(400).json({ message: 'You have already flagged this issue' });
-      }
-
-      // Increment flag count and add the user to the flaggedBy array
-      issue.flags += 1;
-      issue.flaggedBy.push(userId);
-      await issue.save();
-
-      return res.status(200).json({
-        message: 'Issue flagged successfully',
-        flags: issue.flags,
-      });
+    const issue = await Issue.findById(id);
+    if (!issue) {
+      return res.status(404).json({ message: 'Issue not found' });
     }
 
-    res.status(400).json({ message: 'Invalid request' });
+    // Check if the user has already flagged this issue
+    if (issue.flaggedBy.includes(userId)) {
+      return res.status(400).json({ message: 'You have already flagged this issue' });
+    }
+
+    // Ensure a valid reason is provided
+    if (!reason || reason.trim() === '') {
+      return res.status(400).json({ message: 'Flagging reason is required' });
+    }
+
+    // Add flag count and user details
+    issue.flags += 1;
+    issue.flaggedBy.push(userId);
+    issue.flaggedReasons.push({ user: userId, reason, flaggedAt: new Date() }); // Store reason with timestamp
+
+    await issue.save();
+
+    res.status(200).json({
+      message: 'Issue flagged successfully',
+      flags: issue.flags,
+      flaggedReasons: issue.flaggedReasons
+    });
   } catch (error) {
     console.error('Error flagging issue:', error);
-    res.status(500).json({
-      message: 'Server error',
-      error: error.message,
-    });
-  }       
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 };
 
 exports.modifyIssue = async (req, res) => {
