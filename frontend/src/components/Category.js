@@ -252,6 +252,7 @@ const IssueCategorization = () => {
     color: categoryStyles[category].color
   }));
   
+  
   const toggleSort = (field) => {
     if (sortBy === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
