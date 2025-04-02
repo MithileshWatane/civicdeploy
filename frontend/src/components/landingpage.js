@@ -238,7 +238,7 @@ export default function App() {
             </li>
 
             <li onClick={() => handleNavigation('/category')}>
-              <Link to="/">category</Link>
+              <Link to="/">See Categories</Link>
             </li>
             </>
              
