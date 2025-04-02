@@ -189,7 +189,7 @@ const IssueCategorization = () => {
     const fetchAndCategorizeIssues = async () => {
       try {
         // Replace mock data with actual API call
-        const response = await axios.get('http://localhost:5000/api/issues/get', {
+        const response = await axios.get('https://civicdeploy-1.onrender.com/api/issues/get', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // Send the token for authentication
           },

@@ -62,7 +62,7 @@ export default function Map() {
 
     
           // Fetch user's reported issues
-          const issuesResponse = await axios.get('http://localhost:5000/api/issues/get', {
+          const issuesResponse = await axios.get('https://civicdeploy-1.onrender.com/api/issues/get', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -81,7 +81,7 @@ export default function Map() {
     const handleUpvote = async (issueId) => {
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/issues/trending/${issueId}/upvote`,
+          `https://civicdeploy-1.onrender.com/api/issues/trending/${issueId}/upvote`,
           { upvote: true },
           {
             headers: {

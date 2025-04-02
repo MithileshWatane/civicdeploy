@@ -447,7 +447,7 @@ const Pagination = () => {
     const token = localStorage.getItem("token");
   
     try {
-      const response = await fetch("http://localhost:5000/api/governmentid/reported-issues", {
+      const response = await fetch("https://civicdeploy-1.onrender.com/api/governmentid/reported-issues", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -520,7 +520,7 @@ useEffect(() => {
     if (!complaints.length) return;
   
     try {
-      const response = await fetch("http://localhost:5000/api/get-progress-log", {
+      const response = await fetch("https://civicdeploy-1.onrender.com/api/get-progress-log", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ issueIds: complaints.map((c) => c._id) }),
@@ -606,7 +606,7 @@ useEffect(() => {
 
     if (complaint.status === 'in progress' && newStatus === 'resolved') {
       try {
-        const response = await fetch(`http://localhost:5000/api/issues/progress-log/${id}`, {
+        const response = await fetch(`https://civicdeploy-1.onrender.com/api/issues/progress-log/${id}`, {
           method: 'GET',
           headers: { 
             'Authorization': `Bearer ${token}`,
@@ -641,7 +641,7 @@ useEffect(() => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/issues/modify/${id}`, {
+      const response = await fetch(`https://civicdeploy-1.onrender.com/api/issues/modify/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -698,7 +698,7 @@ useEffect(() => {
     }
 
     try {
-      const statusResponse = await fetch(`http://localhost:5000/api/issues/modify/${modalData.issueId}`, {
+      const statusResponse = await fetch(`https://civicdeploy-1.onrender.com/api/issues/modify/${modalData.issueId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -712,7 +712,7 @@ useEffect(() => {
         throw new Error(statusData.message || 'Failed to update issue status');
       }
 
-      const logResponse = await fetch('http://localhost:5000/api/issues/progress-log', {
+      const logResponse = await fetch('https://civicdeploy-1.onrender.com/api/issues/progress-log', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

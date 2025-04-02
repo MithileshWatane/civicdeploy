@@ -105,7 +105,7 @@ export default function App() {
   useEffect(() => {
     const fetchTrendingIssues = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/issues/get', {
+        const response = await axios.get('https://civicdeploy-1.onrender.com/api/issues/get', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // Send the token for authentication
           },
@@ -122,7 +122,7 @@ export default function App() {
   const handleUpvote = async (issueId) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/issues/trending/${issueId}/upvote`,
+        `https://civicdeploy-1.onrender.com/api/issues/trending/${issueId}/upvote`,
         { upvote: true },
         {
           headers: {
@@ -162,7 +162,7 @@ export default function App() {
   
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/issues/flag/${issueId}`,
+        `https://civicdeploy-1.onrender.com/api/issues/flag/${issueId}`,
         { reason }, // Send reason
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
