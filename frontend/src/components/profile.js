@@ -297,7 +297,25 @@ const Profile = () => {
             ))}
           </ul>
 
-
+          <div className="projects">
+            <h3>Projects Created by You</h3>
+            {projects.length === 0 ? (
+              <p>No projects created by you.</p>
+            ) : (
+              <ul>
+                {projects.map((project) => (
+                  <li key={project._id}>
+                    <strong>{project.name}</strong> <br />
+                    Description: {project.description} <br />
+                    Volunteers Required: {project.goalAmount} <br />
+                    Active participants: {project.funding} <br />
+                    <button onClick={() => setEditProject(project)}>Edit</button>
+                    <button onClick={() => deleteProject(project._id)}>Delete</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
      
           {modalImage && (
         <div className="modal" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.8)', padding: '20px', borderRadius: '10px', zIndex: 1001 }}>
